@@ -48,7 +48,7 @@ class skorSprintM
             $nilaiPoint2 = 63;
         } else if ($nilaiPoint2>=0.1 && $nilaiPoint2<2.6) {
             $nilaiPoint2 = 54;
-        } else if ($nilaiPoint2>=-2.5 && $nilaiPoint2<0.1) {
+        } else if ($nilaiPoint2>=2.5 && $nilaiPoint2<0.1) {
             $nilaiPoint2 = 45;
         } else if ($nilaiPoint2>=-5 && $nilaiPoint2<-2.5) {
             $nilaiPoint2 = 36;
@@ -70,7 +70,7 @@ class skorSprintM
             $skorSprint = new skorSprint;
             $skorSprint->nilaiPoint = $point;
             $skorSprint->nilaiDosen = $DosenNilai;
-            $skorSprint->nilaiSprint = $point==0 || $DosenNilai==0 ? 0:(($nilaiPoint2*(5/100))+(($nilaiDosen2/count($nilaiDosen))*(40/100)))*(100/45) || 0;
+            $skorSprint->nilaiSprint = $point==0 || $DosenNilai==0 ? 0:(($nilaiPoint2*(5/100))+(($nilaiDosen2/count($nilaiDosen))*(40/100)))*(100/45);
             $skorSprint->sprint = $request2->sprint;
             $skorSprint->idTim = $request2->idTim;
 
@@ -83,7 +83,7 @@ class skorSprintM
         $skorSprint = skorSprint::find($skorSprint[0]->id);
         $skorSprint->nilaiPoint = $point;
         $skorSprint->nilaiDosen = $DosenNilai;
-        $skorSprint->nilaiSprint = $point==0 || $DosenNilai==0 ? 0: (($nilaiPoint2*(5/100))+(($nilaiDosen2/count($nilaiDosen))*(40/100)))*(100/45) || 0;
+        $skorSprint->nilaiSprint = $point==0 || $DosenNilai==0 ? 0: (($nilaiPoint2*(5/100))+(($nilaiDosen2/count($nilaiDosen))*(40/100)))*(100/45);
         $skorSprint->sprint = $request2->sprint;
         $skorSprint->idTim = $request2->idTim;
         $skorSprint->save();

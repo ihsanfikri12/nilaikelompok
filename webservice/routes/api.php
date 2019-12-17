@@ -18,20 +18,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //Skor Dosen
-Route::get('skordosen','SkorDosenController@index');
-Route::get('/skordosen/{id}','SkorDosenController@show');
+Route::get('/skordosen','SkorDosenController@index');
+Route::get('/skordosen/{id}','SkorDosenController@showbyid');
+Route::get('/skordosen/{id}/{sprint}','SkorDosenController@show');
+Route::post('/skordosen/matkul', 'SkorDosenController@showByMatkul');
 Route::post('skordosen','SkorDosenController@create',function(){})->middleware('SkorSprint');
 Route::put('/skordosen/{id}','SkorDosenController@update',function(){})->middleware('SkorSprint');
 Route::delete('/skordosen/{id}','SkorDosenController@delete'); 
 
 //skorPoint
 Route::get('skorpoint','SkorPointController@index');
-Route::get('/skorpoint/{id}','SkorPointController@show');
+Route::get('/skorpoint/{id}','SkorPointController@showbyid');
+Route::get('/skorpoint/{id}/{idUser}','SkorPointController@show2');
+Route::get('/skorpoint/detail/{id}/{sprint}','SkorPointController@show');
 Route::post('skorpoint','SkorPointController@create',function(){})->middleware('SkorSprint');
 Route::put('/skorpoint/{id}','SkorPointController@update',function(){})->middleware('SkorSprint');
 Route::delete('/skorpoint/{id}','SkorPointController@delete');
 
-//skorPoint
+//skorsprint
 Route::get('skorsprint','SkorSprintController@index');
 Route::get('/skorsprint/{id}','SkorSprintController@show');
 Route::post('skorsprint','SkorSprintController@create');
@@ -41,6 +45,7 @@ Route::delete('/skorsprint/{id}','SkorSprintController@delete');
 //skorfinal
 Route::get('skorfinal','NilaiFinalController@index');
 Route::get('/skorfinal/{id}','NilaiFinalController@show');
+Route::get('/skorfinal/lihat/{id}','NilaiFinalController@show2');
 Route::post('skorfinal','NilaiFinalController@create',function(){})->middleware('SkorFinal');
 Route::put('/skorfinal/{id}','NilaiFinalController@update',function(){})->middleware('SkorFinal');
 Route::delete('/skorfinal/{id}','NilaiFinalController@delete');

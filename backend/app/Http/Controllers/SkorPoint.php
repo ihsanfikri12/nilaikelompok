@@ -19,16 +19,28 @@ class SkorPoint extends Controller
         return $response;
     }
 
+    public function tambahPoint()
+    {
+        return view('pages.formPoint');
+    }
+
     // Tambah nilai point
     public function create(Request $request)
     {
-        $point = $request->point;
+        // $point = $request->point;
         $status = $request->status;
+        $point = 0;
+        if($status == "penambahan") {
+            $point = 2.5;
+        } else if ($status == "pengurangan") {
+            $point = -2.5;
+        }
+
         $keterangan = $request->keterangan;
         $sprint = $request->sprint;
         $idUser = $request->idUser;
         $idTim = $request->idTim;
-        $idSkorSprint = $request->idSkorSprint;
+        // $idSkorSprint = $request->idSkorSprint;
 
         $client = new \GuzzleHttp\Client();
         $response = $client->request('POST', "http://127.0.0.1:8000/api/skorpoint", [
@@ -39,34 +51,58 @@ class SkorPoint extends Controller
                 'sprint' => $sprint,
                 'idUser' => $idUser,
                 'idTim' => $idTim,
-                'idSkorSprint' => $idSkorSprint,
+                // 'idSkorSprint' => $idSkorSprint,
          ]]);
 
-         return "data berhasil dibuat";
+        //  echo $status;
+         return redirect("/skorpoint/$idTim/$idUser");
+        // return $point;
     }
 
 
     //show skor point by id    
-    public function show($id)
+    public function show($id,$sprint)
     {
+        $client = new Client(['base_uri' => "http://127.0.0.1:8000/api/skorpoint/detail/$id/$sprint"]);
+        $request = $client->request('GET');
+        $response = $request->getBody();
+        $data = json_decode($response);
+        // return $data->point;
+        return view('pages.detailPoint',['data'=>$data]);
+        // return $response;
+    }
+
+    public function show2($id,$idUser)
+    {
+        $client = new Client(['base_uri' => "http://127.0.0.1:8000/api/skorpoint/$id/$idUser"]);
+        $request = $client->request('GET');
+
+        
+        $response = $request->getBody();
+        $data = json_decode($response);
+        // // return $data->point;
+        return view('pages.tablesPointAll',['data'=>$data, 'id'=>$id, 'idUser'=>$idUser]);
+        // return $response;
+    }
+
+    public function ubahNilai($id)
+    {   
         $client = new Client(['base_uri' => "http://127.0.0.1:8000/api/skorpoint/$id"]);
         $request = $client->request('GET');
         $response = $request->getBody();
-        // $data = json_decode($response);
-        // return $data->point;
-        return $response;
+        $data = json_decode($response);
+        
+        // return view('pages.editPoint');
+        return view('pages.editPoint', ['data'=>$data]);
+       
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\r  $r
      * @return \Illuminate\Http\Response
      */
-    public function edit(r $r)
-    {
-        //
-    }
 
 
      //update point
@@ -92,13 +128,18 @@ class SkorPoint extends Controller
                 'idSkorSprint' => $idSkorSprint,
          ]]);
 
-         return "data berhasil dibuat";
+         return redirect("/skorpoint/$idTim/$idUser/$sprint");
+        // return $idUser;
     }
 
-    public function delete($id)
-    {
+    public function delete ($id) {
         $client = new Client(['base_uri' => "http://127.0.0.1:8000/api/skorpoint/$id"]);
         $request = $client->request('DELETE');
-        return "data berhasil didelete";
+
+        $response = $request->getBody();
+        $data = json_decode($response);
+        
+        return redirect("/skorpoint/$data->idTim/$data->idUser");
+        
     }
 }

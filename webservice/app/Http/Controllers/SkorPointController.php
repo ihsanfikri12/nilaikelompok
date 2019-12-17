@@ -13,9 +13,27 @@ class SkorPointController extends Controller
         }
     
         //show skor dosen by id
-        public function show($id)
+        // public function show($id,$sprint)
+        // {
+        //     $skorPoint = skorPoint::where('idTim',$id)->where('sprint',$sprint)->get();
+        //     return $skorPoint;
+        // }
+
+        // public function show($id,$idUser,$sprint)
+        // {
+        //     $skorPoint = skorPoint::where('idTim',$id)->where('idUser',$idUser)->where('sprint',$sprint)->get();
+        //     return $skorPoint;
+        // }
+
+        public function show($id,$sprint) 
         {
-            $skorPoint = skorPoint::find($id);
+            $skorPoint = skorPoint::where('idTim',$id)->where('sprint',$sprint)->get();
+            return $skorPoint;
+        }
+
+        public function show2($id,$idUser)
+        {
+            $skorPoint = skorPoint::where('idTim',$id)->where('idUser',$idUser)->get();
             return $skorPoint;
         }
     
@@ -57,11 +75,16 @@ class SkorPointController extends Controller
     
             return $skorPoint;
         }
-    
+        
+        public function showbyid($id)
+        {
+         $skorPoint = skorPoint::find($id);
+         return $skorPoint;
+        }
         public function delete ($id) {
             $skorPoint = skorPoint::find($id);
             $skorPoint->delete();
     
-            return "Data Berhasil di delete" ;
+            return $skorPoint;
         }
 }

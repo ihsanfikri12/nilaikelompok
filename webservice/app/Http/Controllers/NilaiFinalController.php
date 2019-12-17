@@ -15,13 +15,20 @@ class NilaiFinalController extends Controller
         public function show($id)
         {
             $nilaiFinal = nilaiFinal::find($id);
-            return $skorSprint;
+            return $nilaiFinal;
+        }
+
+        public function show2($id)
+        {
+            $nilaiFinal = nilaiFinal::where('idTim',$id)->get();   
+            return $nilaiFinal;
         }
     
         //index (create data) 
         public function create (request $request) {
             $nilaiFinal = new nilaiFinal;
             $nilaiFinal->finalNilaiSprint = $request->finalNilaiSprint;
+            $nilaiFinal->matkul = $request->matkul;
             $nilaiFinal->nilaiUts = $request->nilaiUts;
             $nilaiFinal->nilaiUas = $request->nilaiUas;
             // $nilaiFinal->finalSkorTim = $request->finalSkorTim;
@@ -30,7 +37,8 @@ class NilaiFinalController extends Controller
     
             return $nilaiFinal;
         }
-    
+
+   
         //index (update data) 
         public function update (request $request, $id) {
 

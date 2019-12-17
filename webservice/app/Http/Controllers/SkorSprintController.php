@@ -14,7 +14,7 @@ class SkorSprintController extends Controller
 
     public function show($id)
     {
-        $skorSprint = skorSprint::find($id);
+        $skorSprint = skorSprint::where('idTim',$id)->get();
         return $skorSprint;
     }
 

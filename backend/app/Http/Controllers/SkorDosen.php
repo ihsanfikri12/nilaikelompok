@@ -4,9 +4,49 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
-
+use Illuminate\Support\Facades\View;
 class SkorDosen extends Controller
 {
+
+
+    public function login() {
+        return view('pages.loginDosen');
+    }
+
+      //show all skow dosen
+    public function showMatkul($matkul,$id){
+        // $matkul = $request->matkul;
+        
+
+        // if(!$idTim){
+        //     $idTim = 1;
+        // }
+        
+        $client = new \GuzzleHttp\Client();
+        $request = $client->request('POST', "http://127.0.0.1:8000/api/skordosen/matkul", [
+            'form_params' => [
+                'idTim' => $id,
+                'matkul' => $matkul,
+            ]]);
+
+        $response = $request->getBody();
+        $data = json_decode($response);
+
+        
+        return view('pages.indexDosen',['data'=>$data,'matkul'=>$matkul, 'id'=>$id]);
+        // return $data;
+        
+    }
+  
+      public function show ($id,$sprint) {
+          $client = new Client(['base_uri' => "http://127.0.0.1:8000/api/skordosen/$id/$sprint"]);
+          $request = $client->request('GET');
+          $response = $request->getBody();
+          $data = json_decode($response);
+          
+          return view('pages.detailDosen',['data'=>$data]);
+        
+      }
 
     //create skor dosen
     public function create(Request $request)
@@ -14,11 +54,12 @@ class SkorDosen extends Controller
         $KetepatanWaktu = $request->KetepatanWaktu;
         $Kelengkapan = $request->Kelengkapan;
         $KualitasHasil = $request->KualitasHasil;
-        $TotalNilai = $request->TotalNilai;
+        $TotalNilai = 50;
         $sprint = $request->sprint;
-        $idUser = $request->idUser;
+        $idUser = 1;
         $idTim = $request->idTim;
-        $idSkorSprint = $request->idSkorSprint;
+        $idSkorSprint = 3;
+        $matkul = $request->Matkul;
         
         $client = new \GuzzleHttp\Client();
         $response = $client->request('POST', "http://127.0.0.1:8000/api/skordosen", [
@@ -31,25 +72,26 @@ class SkorDosen extends Controller
                 'idUser' => $idUser,
                 'idTim' => $idTim,
                 'idSkorSprint' => $idSkorSprint,
+                'Matkul'=>$matkul,
          ]]);
-
-        return "data berhasil dibuat";
+        
+        return redirect("/skordosen/$matkul/$idTim");
     }
 
-    //show all skow dosen
-    public function index()
+    public function tambahNilai($matkul)
     {
-        $client = new Client(['base_uri' => 'http://127.0.0.1:8000/api/skordosen']);
-        $request = $client->request('GET');
-        $response = $request->getBody();
-        return $response;
+        return view('pages.formDosen',['matkul'=>$matkul]);
     }
 
-    public function show ($id) {
+  
+    public function ubahNilai($id)
+    {   
         $client = new Client(['base_uri' => "http://127.0.0.1:8000/api/skordosen/$id"]);
         $request = $client->request('GET');
         $response = $request->getBody();
-        return $response;
+        $data = json_decode($response);
+        
+        return view('pages.editDosen',['data'=>$data]);
     }
 
     public function update(Request $request, $id)
@@ -57,11 +99,12 @@ class SkorDosen extends Controller
         $KetepatanWaktu = $request->KetepatanWaktu;
         $Kelengkapan = $request->Kelengkapan;
         $KualitasHasil = $request->KualitasHasil;
-        $TotalNilai = $request->TotalNilai;
+        $TotalNilai = 50;
         $sprint = $request->sprint;
-        $idUser = $request->idUser;
+        $idUser = 1;
         $idTim = $request->idTim;
-        $idSkorSprint = $request->idSkorSprint;
+        $idSkorSprint = 3;
+        $matkul = $request->Matkul;
         
         $client = new \GuzzleHttp\Client();
         $response = $client->request('PUT', "http://127.0.0.1:8000/api/skordosen/$id", [
@@ -74,15 +117,21 @@ class SkorDosen extends Controller
                 'idUser' => $idUser,
                 'idTim' => $idTim,
                 'idSkorSprint' => $idSkorSprint,
+                'Matkul'=>$matkul,
          ]]);
 
-        return "data berhasil diupdate";
+         return redirect("/skordosen/$matkul/$idTim");
     }
 
     public function delete ($id) {
         $client = new Client(['base_uri' => "http://127.0.0.1:8000/api/skordosen/$id"]);
         $request = $client->request('DELETE');
-        return "data berhasil didelete";
+        
+        $response = $request->getBody();
+        $data = json_decode($response);
+        
+        return redirect("/skordosen/$data->MatKul/$data->idTim");
+        
     }
 
 }
