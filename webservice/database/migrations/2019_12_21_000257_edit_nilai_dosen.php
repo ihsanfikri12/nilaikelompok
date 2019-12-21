@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Add extends Migration
+class EditNilaiDosen extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class Add extends Migration
      */
     public function up()
     {
-        Schema::table('skor_points', function (Blueprint $table) {
-            $table->float('point')->nullable()->change();
+        Schema::table('nilai_dosens', function (Blueprint $table) {
+            $table->string('Matkul')->after('id');
         });
     }
 
@@ -25,8 +25,6 @@ class Add extends Migration
      */
     public function down()
     {
-        Schema::table('skor_dosens', function (Blueprint $table) {
-            $table->string('MatKul')->after('TotalNilai')->change();
-        });
+        //
     }
 }

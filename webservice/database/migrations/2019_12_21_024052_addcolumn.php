@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTable extends Migration
+class Addcolumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,9 @@ class AddTable extends Migration
      */
     public function up()
     {
-        Schema::create('skor_sprints', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('nilaiPoint');
-            $table->integer('nilaiDosen');
-            $table->integer('nilaiSprint');
-            $table->integer('sprint');
-            $table->integer('idTim');
-            $table->timestamps();
+        Schema::table('nilai_dosens', function (Blueprint $table) {
+            $table->string('TotalNilai')->after('KualitasHasil');
         });
-
-
     }
 
     /**

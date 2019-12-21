@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Dropskorsprint extends Migration
+class CreateTimsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,11 @@ class Dropskorsprint extends Migration
      */
     public function up()
     {
-        Schema::drop('skor_dosens');
+        Schema::create('tims', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('nama');
+            $table->integer('semester');
+        });
     }
 
     /**
@@ -23,6 +27,6 @@ class Dropskorsprint extends Migration
      */
     public function down()
     {
-        
+        Schema::dropIfExists('tims');
     }
 }

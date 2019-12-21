@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Addingnewcolumn extends Migration
+class Addsometables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class Addingnewcolumn extends Migration
      */
     public function up()
     {
-        Schema::table('skor_sprints', function (Blueprint $table) {
-            $table->integer('idNilaiFinal')->after('idTim');
+
+        Schema::table('nilai_sprints', function($table) {
+            $table->foreign('sprint_id')->references('id')->on('sprint')->onDelete('cascade');
         });
+
 
     }
 

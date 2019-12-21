@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSkorSprintsTable extends Migration
+class CreateNilaiDosensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateSkorSprintsTable extends Migration
      */
     public function up()
     {
-        Schema::create('skor_sprints', function (Blueprint $table) {
+        Schema::create('nilai_dosens', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->float('KetepatanWaktu');
+            $table->float('Kelengkapan');
+            $table->float('KualitasHasil');
+            $table->integer('idTim')->references('id')->on('tims');
         });
     }
 
@@ -26,6 +29,6 @@ class CreateSkorSprintsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('skor_sprints');
+        Schema::dropIfExists('nilai_dosens');
     }
 }

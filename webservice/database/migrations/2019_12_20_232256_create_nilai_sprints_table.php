@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNull extends Migration
+class CreateNilaiSprintsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddNull extends Migration
      */
     public function up()
     {
-        Schema::table('skor_sprints', function (Blueprint $table) {
-            $table->integer('idNilaiFinal')->nullable()->change();
+        
+
+        Schema::table('nilai_sprints', function($table) {
+            $table->foreign('tim_id')->references('id')->on('tims')->onDelete('cascade');;
         });
     }
 
@@ -25,6 +27,6 @@ class AddNull extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('nilai_sprints');
     }
 }
